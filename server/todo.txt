@@ -5,13 +5,11 @@ Todo!
     - Reminders and categories will have to wait.
     - Reminders and categories will be handles after finalizing the frontend of the application.
 
-
 Secure Notes Application Backend Goals!
 
     - User Sign Up, Sign In                    ==> ✅
     - Authentication, Authorization            ==> ✅
     - Notes Read, Create, Update, Delete       ==> ✅
-
 
 
 Application Goals!

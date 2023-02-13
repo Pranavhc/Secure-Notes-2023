@@ -1,5 +1,7 @@
 import 'package:client/screens/home_screen.dart';
-import 'package:client/screens/login_screen.dart';
+import 'package:client/screens/signin_screen.dart';
+import 'package:client/screens/signup_screen.dart';
+import 'package:client/screens/welcome_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -19,9 +21,17 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => const LoginScreen(),
+        '/': (context) => const WelcomeScreen(),
+        '/sign-up': (context) => const SignUpScreen(),
+        '/sign-in': (context) => const SignInScreen(),
         "/home": (context) => const HomeScreen()
       },
     );
   }
 }
+
+// "/" - login options
+// "/home" - home screen (notes / notebooks, searchbar)
+// "/note" - selected note from notes
+// "/new" - new note/document
+// "/settings" - settings, account

@@ -1,6 +1,7 @@
 import User from "../Models/USER.js";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError } from "../Errors/badReqErr.js";
+import { UnauthorizedError } from "../Errors/unauthorizedErr.js";
 
 const register = async (req, res) => {
     const { name, email, profilePic, password } = req.body;
@@ -19,7 +20,7 @@ const login = async (req, res) => {
     if (!user) throw new BadRequestError("Invalid Credentials, User Not Found!");
 
     const isPasswordCorrect = await user.comparePassword(password);
-    if (!isPasswordCorrect) throw new UnauthenticatedError("Invalid Credentials");
+    if (!isPasswordCorrect) throw new UnauthorizedError("Invalid Credentials");
 
     const token = user.createJWT();
     res.status(StatusCodes.OK).json({ user, token });

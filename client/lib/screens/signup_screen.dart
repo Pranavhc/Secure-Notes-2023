@@ -4,9 +4,26 @@ import 'package:client/screens/signin_screen.dart';
 import 'package:client/widgets/elevated_button.dart';
 import 'package:client/widgets/input_field.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
+
+  @override
+  State<SignUpScreen> createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
+  final name = TextEditingController();
+  final email = TextEditingController();
+  final password = TextEditingController();
+  final cPassword = TextEditingController();
+
+  @override
+  void dispose() {
+    name.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,8 +68,9 @@ class SignUpScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const InputField(
+            InputField(
                 hint: "Enter your name",
+                controller: name,
                 obscure: false,
                 left: 18,
                 right: 18,
@@ -68,8 +86,9 @@ class SignUpScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const InputField(
+            InputField(
                 hint: "Enter your email",
+                controller: email,
                 obscure: false,
                 left: 18,
                 right: 18,
@@ -85,8 +104,9 @@ class SignUpScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const InputField(
+            InputField(
                 hint: "Create a password",
+                controller: password,
                 obscure: true,
                 left: 18,
                 right: 18,
@@ -102,20 +122,23 @@ class SignUpScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const InputField(
-                hint: "Confirm the password",
-                obscure: true,
-                left: 18,
-                right: 18,
-                top: 9,
-                bottom: 18),
+            InputField(
+              hint: "Confirm the password",
+              controller: cPassword,
+              obscure: true,
+              left: 18,
+              right: 18,
+              top: 9,
+              bottom: 18,
+            ),
             const Center(
-                child: NavigatingElevatedButton(
-                    string: "Sign up",
-                    location: HomeScreen(),
-                    radius: 12,
-                    top: 18,
-                    bottom: 18)),
+              child: NavigatingElevatedButton(
+                  string: "Sign up",
+                  location: HomeScreen(),
+                  radius: 12,
+                  top: 18,
+                  bottom: 18),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

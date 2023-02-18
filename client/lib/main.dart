@@ -29,9 +29,18 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-// "/" - login options
+// ROUTES
+// "/" - intro & login options
+// "/sign-up" - Register
+// "/sign-in" - Login
 // "/home" - home screen (notes / notebooks, searchbar)
 // "/note" - selected note from notes
 // "/new" - new note/document
 // "/settings" - settings, account
+
+// TODO - bare minimum
+// login with email       ✅
+// Register with email 
+// Home screen
+// quill text editor
+

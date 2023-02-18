@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:client/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -16,6 +14,7 @@ class NavigatingElevatedButton extends StatelessWidget {
   final double width;
   final double height;
   final String imgpath;
+
   const NavigatingElevatedButton({
     Key? key,
     required this.string,

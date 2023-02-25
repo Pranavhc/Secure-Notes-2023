@@ -1,4 +1,3 @@
-import 'package:client/colors.dart';
 import 'package:client/widgets/carousel_item.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -9,10 +8,10 @@ class InfiniteCarouselWidget extends StatefulWidget {
   const InfiniteCarouselWidget({super.key});
 
   @override
-  _InfiniteCarouselWidgetState createState() => _InfiniteCarouselWidgetState();
+  InfiniteCarouselWidgetState createState() => InfiniteCarouselWidgetState();
 }
 
-class _InfiniteCarouselWidgetState extends State<InfiniteCarouselWidget> {
+class InfiniteCarouselWidgetState extends State<InfiniteCarouselWidget> {
   // Scroll controller for carousel
   late InfiniteScrollController _controller;
 

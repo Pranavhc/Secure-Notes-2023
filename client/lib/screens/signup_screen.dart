@@ -1,19 +1,20 @@
 import 'package:client/colors.dart';
+import 'package:client/repository/auth_repository.dart';
 import 'package:client/screens/home_screen.dart';
 import 'package:client/screens/signin_screen.dart';
-import 'package:client/widgets/elevated_button.dart';
 import 'package:client/widgets/input_field.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:routemaster/routemaster.dart';
 
-class SignUpScreen extends StatefulWidget {
+class SignUpScreen extends ConsumerStatefulWidget {
   const SignUpScreen({super.key});
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  ConsumerState<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   final name = TextEditingController();
   final email = TextEditingController();
   final password = TextEditingController();
@@ -22,11 +23,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   void dispose() {
     name.dispose();
+    email.dispose();
+    password.dispose();
+    cPassword.dispose();
     super.dispose();
+  }
+
+  void registerWithEmail(WidgetRef ref, BuildContext context) async {
+    final sMessanger = ScaffoldMessenger.of(context);
+    final navigator = Routemaster.of(context);
+    final errorModel = await ref
+        .read(authRepositoryProvider)
+        .registerWithEmail(name.text, email.text, password.text);
+    if (errorModel.error == null) {
+      ref.read(userProvider.notifier).update((state) => errorModel.data);
+      navigator.push('/home');
+    } else {
+      sMessanger.showSnackBar(SnackBar(content: Text(errorModel.error!)));
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final navigator = Routemaster.of(context);
     return Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: kBackground,
@@ -131,13 +150,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
               top: 9,
               bottom: 18,
             ),
-            const Center(
-              child: NavigatingElevatedButton(
-                  string: "Sign up",
-                  location: HomeScreen(),
-                  radius: 12,
-                  top: 18,
-                  bottom: 18),
+            Center(
+              child:
+                  //   NavigatingElevatedButton(
+                  //       string: "Sign up",
+                  //       location: HomeScreen(),
+                  //       radius: 12,
+                  //       top: 18,
+                  //       bottom: 18),
+                  // ),
+
+                  InkWell(
+                onTap: () => registerWithEmail(ref, context),
+                child: const Text("Sign up",
+                    style: TextStyle(
+                      color: kFairText,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    )),
+              ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -148,10 +179,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       fontSize: 14,
                     )),
                 InkWell(
-                  onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const SignInScreen())),
+                  // onTap: () => Navigator.push(context,MaterialPageRoute(builder: (context) => const SignInScreen())),
+                  onTap: () => navigator.push('/sign-in'),
                   child: const Text("Sign in",
                       style: TextStyle(
                         color: kFairText,

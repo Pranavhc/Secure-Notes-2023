@@ -1,11 +1,10 @@
-import 'package:client/screens/home_screen.dart';
-import 'package:client/screens/signin_screen.dart';
-import 'package:client/screens/signup_screen.dart';
-import 'package:client/screens/welcome_screen.dart';
+import 'package:client/widgets/router.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:routemaster/routemaster.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -13,22 +12,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Secure Notes',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const WelcomeScreen(),
-        '/sign-up': (context) => const SignUpScreen(),
-        '/sign-in': (context) => const SignInScreen(),
-        "/home": (context) => const HomeScreen()
-      },
+      routerDelegate:
+          RoutemasterDelegate(routesBuilder: (context) => loggedOutRoute),
+      routeInformationParser: const RoutemasterParser(),
     );
   }
 }
+
 // ROUTES
 // "/" - intro & login options
 // "/sign-up" - Register

@@ -6,9 +6,10 @@ import { UnauthorizedError } from "../Errors/unauthorizedErr.js";
 const register = async (req, res) => {
     const { name, email, profilePic, password } = req.body;
 
-    let user = await User.findOne({ email });
-    if (!user) user = await User.create({ name, email, profilePic, password });
+    let userExists = await User.findOne({ email });
+    if (userExists) throw new BadRequestError("User Already Exists, try logging in!");
 
+    const user = await User.create({ name, email, profilePic, password });
     const token = user.createJWT();
     res.status(StatusCodes.CREATED).json({ user, token });
 };
@@ -27,4 +28,10 @@ const login = async (req, res) => {
 };
 
 
-export { register, login };
+const getlogin = async (req, res) => {
+    const user = await User.findById(req.user.userID);
+    res.json({ user, token: req.token });
+};
+
+
+export { register, login, getlogin };

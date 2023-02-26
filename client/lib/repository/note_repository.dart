@@ -140,4 +140,48 @@ class NoteRepository {
     }
     return error;
   }
+
+  Future<ErrorModel> updateNote(
+      {required String token,
+      required String id,
+      required String title,
+      required List<dynamic> content}) async {
+    ErrorModel error =
+        ErrorModel(error: 'Some unexpected error occurred.', data: null);
+
+    try {
+      var res = await _client.patch(
+        Uri.parse('$server/notes/$id'),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'authorization': "Bearer $token"
+        },
+        body: jsonEncode({"title": title, "content": content}),
+      );
+      switch (res.statusCode) {
+        case 201:
+          error = ErrorModel(
+            error: null,
+            data: "Success!",
+          );
+          break;
+        default:
+          error = ErrorModel(
+            error: res.body
+                .split(':')[1]
+                .replaceAll('/', '')
+                .replaceAll('}', '')
+                .replaceAll('"', ''),
+            data: null,
+          );
+          break;
+      }
+    } catch (e) {
+      error = ErrorModel(
+        error: e.toString(),
+        data: null,
+      );
+    }
+    return error;
+  }
 }

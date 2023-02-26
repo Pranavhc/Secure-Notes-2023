@@ -1,6 +1,5 @@
 import 'package:client/colors.dart';
 import 'package:client/repository/auth_repository.dart';
-import 'package:client/screens/home_screen.dart';
 import 'package:client/screens/signin_screen.dart';
 import 'package:client/widgets/input_field.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +44,6 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final navigator = Routemaster.of(context);
     return Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: kBackground,
@@ -151,16 +149,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
               bottom: 18,
             ),
             Center(
-              child:
-                  //   NavigatingElevatedButton(
-                  //       string: "Sign up",
-                  //       location: HomeScreen(),
-                  //       radius: 12,
-                  //       top: 18,
-                  //       bottom: 18),
-                  // ),
-
-                  InkWell(
+              child: InkWell(
                 onTap: () => registerWithEmail(ref, context),
                 child: const Text("Sign up",
                     style: TextStyle(
@@ -180,7 +169,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                     )),
                 InkWell(
                   // onTap: () => Navigator.push(context,MaterialPageRoute(builder: (context) => const SignInScreen())),
-                  onTap: () => navigator.push('/sign-in'),
+                  onTap: () => Routemaster.of(context).push('/sign-in'),
                   child: const Text("Sign in",
                       style: TextStyle(
                         color: kFairText,

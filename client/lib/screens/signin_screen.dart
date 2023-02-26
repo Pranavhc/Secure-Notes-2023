@@ -137,10 +137,8 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                       fontSize: 14,
                     )),
                 InkWell(
-                  onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const SignUpScreen())),
+                  // onTap: () => Navigator.push(context,MaterialPageRoute(builder: (context) => const SignUpScreen())),
+                  onTap: () => Routemaster.of(context).push('/sign-up'),
                   child: const Text("Sign up",
                       style: TextStyle(
                         color: kFairText,

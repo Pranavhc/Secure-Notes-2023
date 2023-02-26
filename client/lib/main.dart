@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       routerDelegate:
-          RoutemasterDelegate(routesBuilder: (context) => loggedOutRoute),
+          RoutemasterDelegate(routesBuilder: (context) => allroutes),
       routeInformationParser: const RoutemasterParser(),
     );
   }

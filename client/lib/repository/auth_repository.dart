@@ -142,4 +142,8 @@ class AuthRepository {
     }
     return error;
   }
+
+  void logOut() {
+    _localStorageRepository.setToken('');
+  }
 }

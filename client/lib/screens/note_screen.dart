@@ -1,4 +1,4 @@
-import 'package:client/colors.dart';
+import 'package:client/utils/colors.dart';
 import 'package:client/model/error_model.dart';
 import 'package:client/repository/auth_repository.dart';
 import 'package:client/repository/note_repository.dart';
@@ -8,10 +8,7 @@ import 'package:flutter/material.dart';
 
 class NoteScreen extends ConsumerStatefulWidget {
   final String id;
-  const NoteScreen({
-    super.key,
-    required this.id,
-  });
+  const NoteScreen({super.key, required this.id});
 
   @override
   ConsumerState<NoteScreen> createState() => NoteStateScreen();

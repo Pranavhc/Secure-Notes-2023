@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../colors.dart';
+import '../utils/colors.dart';
 
 class InputField extends StatelessWidget {
   final String hint;

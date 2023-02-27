@@ -1,4 +1,4 @@
-import 'package:client/colors.dart';
+import 'package:client/utils/colors.dart';
 import 'package:client/screens/home_screen.dart';
 import 'package:client/screens/signin_screen.dart';
 import 'package:client/screens/signup_screen.dart';

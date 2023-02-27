@@ -1,6 +1,7 @@
 import 'package:client/model/error_model.dart';
 import 'package:client/repository/auth_repository.dart';
-import 'package:client/router.dart';
+import 'package:client/utils/router.dart';
+import 'package:client/utils/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
@@ -38,9 +39,9 @@ class _MyAppState extends ConsumerState<MyApp> {
     return MaterialApp.router(
       title: 'Secure Notes',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      themeMode: ref.watch(themeMode),
+      theme: ref.watch(theme),
+      darkTheme: ref.watch(darkTheme),
       routerDelegate: RoutemasterDelegate(
           routesBuilder: (context) =>
               user != null ? loggedInRoutes : loggedOutRoutes),

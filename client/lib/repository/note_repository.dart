@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:client/constants.dart';
+import 'package:client/utils/constants.dart';
 import 'package:client/model/error_model.dart';
 import 'package:client/model/note_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

@@ -1,38 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final themeMode = StateProvider((ref) => ThemeMode.dark);
+final themeMode = StateProvider<ThemeMode>((ref) => ThemeMode.dark);
 
-final theme = Provider((ref) => _theme);
-final darkTheme = Provider((ref) => _darkTheme);
+final theme = Provider<ThemeData>((ref) => _lightTheme);
+final darkTheme = Provider<ThemeData>((ref) => _darkTheme);
 
-const Color lightBackground = Color(0xfff0f0f0);
-const Color darkForeground = Color(0xff232323);
-
-// light
-final _theme = ThemeData(
+final _lightTheme = ThemeData(
   brightness: Brightness.light,
-  canvasColor: Colors.white,
-  cardColor: lightBackground,
+  splashColor: const Color(0xff161621),
+  canvasColor: const Color(0xffF4F4F4),
+  cardColor: Colors.white,
   colorScheme: const ColorScheme.light(
-    background: lightBackground,
-    primary: Colors.black,
+    background: Color(0xffF4F4F4),
+    primary: Color(0xff161621),
   ),
 );
 
-//dark
 final _darkTheme = ThemeData(
   brightness: Brightness.dark,
-  canvasColor: Colors.black,
-  cardColor: darkForeground,
+  splashColor: const Color.fromARGB(255, 190, 190, 190),
+  canvasColor: const Color(0xff161621),
+  cardColor: const Color(0xff202030),
   colorScheme: const ColorScheme.dark(
-    background: Colors.black,
+    background: Color(0xff161621),
     primary: Colors.white,
   ),
 );
-
-// final state = context.read(themeMode).state;
-    // context.read(themeMode).state = state == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
-
-
-// text - 

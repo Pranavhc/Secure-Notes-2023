@@ -1,6 +1,7 @@
 import 'package:client/repository/auth_repository.dart';
 import 'package:client/utils/colors.dart';
 import 'package:client/utils/themes.dart';
+import 'package:client/widgets/notes_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -14,6 +15,13 @@ class MyDrawer extends ConsumerWidget {
         ref.read(themeMode) == ThemeMode.dark
             ? ThemeMode.light
             : ThemeMode.dark);
+    // toggleView(ref);
+  }
+
+  void toggleView(WidgetRef ref) {
+    ref
+        .read(isViewList.notifier)
+        .update((state) => ref.read(isViewList) == true ? false : true);
   }
 
   void logOut(WidgetRef ref) {
@@ -59,6 +67,24 @@ class MyDrawer extends ConsumerWidget {
             ),
             const Divider(color: kFairTextSecondary),
             //
+
+            ListTile(
+              // tileColor: Theme.of(context).cardColor,
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text("Grid View"),
+                  Switch.adaptive(
+                    activeColor: Theme.of(context).splashColor,
+                    onChanged: (value) => toggleView(ref),
+                    value: ref.watch(isViewList),
+                  ),
+                ],
+              ),
+            ),
+
+            const Divider(color: kFairTextSecondary),
+
             ListTile(
               // tileColor: Theme.of(context).cardColor,
               title: Row(
@@ -66,7 +92,7 @@ class MyDrawer extends ConsumerWidget {
                 children: [
                   const Text("Dark Mode"),
                   Switch.adaptive(
-                    activeColor: Colors.deepPurpleAccent,
+                    activeColor: Theme.of(context).splashColor,
                     onChanged: (value) => toggleTheme(ref),
                     value: ref.read(themeMode) == ThemeMode.dark ? true : false,
                   ),

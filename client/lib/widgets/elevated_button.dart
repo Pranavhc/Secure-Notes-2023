@@ -1,9 +1,9 @@
 import 'package:client/utils/colors.dart';
 import 'package:flutter/material.dart';
 
-class NavigatingElevatedButton extends StatelessWidget {
-  final String string;
-  final Widget? location;
+class CustomElevatedButton extends StatelessWidget {
+  final VoidCallback onPressedFunc;
+  final String label;
   final Color color1;
   final Color color2;
   final double radius;
@@ -15,10 +15,9 @@ class NavigatingElevatedButton extends StatelessWidget {
   final double height;
   final String imgpath;
 
-  const NavigatingElevatedButton({
+  const CustomElevatedButton({
     Key? key,
-    required this.string,
-    this.location,
+    required this.label,
     this.top = 0,
     this.bottom = 0,
     this.right = 0,
@@ -26,9 +25,10 @@ class NavigatingElevatedButton extends StatelessWidget {
     this.radius = 0,
     this.width = 200,
     this.height = 45,
-    this.color1 = kFairText,
-    this.color2 = const Color(0xFFC6C6C6),
+    this.color1 = Colors.purple,
+    this.color2 = Colors.deepPurple,
     this.imgpath = "",
+    required this.onPressedFunc,
   }) : super(key: key);
 
   @override
@@ -48,16 +48,13 @@ class NavigatingElevatedButton extends StatelessWidget {
               colors: [color2, color1],
             )),
         child: ElevatedButton(
-          onPressed: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => location!));
-          },
+          onPressed: () => onPressedFunc(),
           style: ButtonStyle(
               shadowColor: MaterialStateProperty.all(Colors.transparent),
               backgroundColor: MaterialStateProperty.all(Colors.transparent),
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30)))),
+                      borderRadius: BorderRadius.circular(radius)))),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -71,9 +68,9 @@ class NavigatingElevatedButton extends StatelessWidget {
                       ),
                     )
                   : const Padding(padding: EdgeInsets.zero),
-              Text(string,
-                  style: const TextStyle(
-                      color: kDarkText,
+              Text(label,
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.background,
                       fontWeight: FontWeight.bold,
                       fontSize: 18)),
             ],

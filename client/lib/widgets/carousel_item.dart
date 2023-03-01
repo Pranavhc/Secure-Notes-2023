@@ -1,4 +1,4 @@
-import 'package:client/colors.dart';
+import 'package:client/utils/colors.dart';
 import 'package:flutter/material.dart';
 
 class CarouselItem extends StatelessWidget {

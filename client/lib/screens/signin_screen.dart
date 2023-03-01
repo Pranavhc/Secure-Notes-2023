@@ -1,7 +1,5 @@
-import 'package:client/colors.dart';
+import 'package:client/utils/colors.dart';
 import 'package:client/repository/auth_repository.dart';
-import 'package:client/screens/home_screen.dart';
-import 'package:client/screens/signup_screen.dart';
 import 'package:client/widgets/input_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -109,16 +107,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                 top: 9,
                 bottom: 18),
             Center(
-              child:
-                  //   NavigatingElevatedButton(
-                  //       string: "Sign up",
-                  //       location: HomeScreen(),
-                  //       radius: 12,
-                  //       top: 18,
-                  //       bottom: 18),
-                  // ),
-
-                  InkWell(
+              child: InkWell(
                 onTap: () => loginWithEmail(ref, context),
                 child: const Text("Sign in",
                     style: TextStyle(

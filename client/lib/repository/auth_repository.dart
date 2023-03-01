@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:client/constants.dart';
+import 'package:client/utils/constants.dart';
 import 'package:client/model/error_model.dart';
 import 'package:client/model/user.dart';
 import 'package:client/repository/local_storage_repository.dart';

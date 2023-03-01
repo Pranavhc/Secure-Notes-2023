@@ -1,43 +1,19 @@
-import 'package:client/model/error_model.dart';
-import 'package:client/repository/auth_repository.dart';
-import 'package:client/screens/home_screen.dart';
-import 'package:client/screens/welcome_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:routemaster/routemaster.dart';
 
-class SplashScrenn extends ConsumerStatefulWidget {
+class SplashScrenn extends StatefulWidget {
   const SplashScrenn({super.key});
 
   @override
-  ConsumerState<SplashScrenn> createState() => _SplashScrennState();
+  State<SplashScrenn> createState() => _SplashScrennState();
 }
 
-class _SplashScrennState extends ConsumerState<SplashScrenn> {
-  ErrorModel? errorModel;
-
+class _SplashScrennState extends State<SplashScrenn> {
   @override
   void initState() {
     super.initState();
-    getUserData();
-    Future.delayed(const Duration(seconds: 3)).then((value) => nextScreen());
-  }
-
-  void getUserData() async {
-    errorModel = await ref.read(authRepositoryProvider).getUserData();
-
-    if (errorModel != null && errorModel!.data != null) {
-      ref.read(userProvider.notifier).update((state) => errorModel!.data);
-    }
-  }
-
-  void nextScreen() {
-    final user = ref.watch(userProvider);
-    print("user 1 - ${user.toString()}"); // remove this later
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) =>
-                user != null ? const HomeScreen() : const WelcomeScreen()));
+    Future.delayed(const Duration(seconds: 3))
+        .then((value) => Routemaster.of(context).replace('/'));
   }
 
   @override
@@ -46,7 +22,14 @@ class _SplashScrennState extends ConsumerState<SplashScrenn> {
       body: SizedBox(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [Image.asset("assets/google-logo.png")],
+          children: [
+            Center(
+              child: Image.asset(
+                "assets/google-logo.png",
+                height: 100,
+              ),
+            )
+          ],
         ),
       ),
     );

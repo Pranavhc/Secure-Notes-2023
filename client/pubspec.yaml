@@ -38,7 +38,7 @@ dependencies:
   http: ^0.13.5
   infinite_carousel: ^1.0.2
   riverpod: ^2.2.0
-  shared_preferences: ^2.0.17
+  shared_preferences: ^2.0.18
   flutter_riverpod: ^2.2.0
   routemaster: ^1.0.1
   flutter_quill: ^6.4.4

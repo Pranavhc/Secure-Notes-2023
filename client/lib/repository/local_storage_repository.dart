@@ -1,14 +1,40 @@
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-class LocalStorageRepository {
+final localSecureStorageProvider = Provider(
+  ((ref) => LocalSecureStorageRepository()),
+);
+
+class LocalSecureStorageRepository {
   void setToken(String token) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    await preferences.setString('x-auth-token', token);
+    const storage = FlutterSecureStorage();
+    await storage.write(key: 'x-auth-token', value: token);
   }
 
   Future<String?> getToken() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    String? token = preferences.getString('x-auth-token');
+    const storage = FlutterSecureStorage();
+    String? token = await storage.read(key: 'x-auth-token');
     return token;
   }
+
+  // void setView(String view) async {
+  //   const storage = FlutterSecureStorage();
+  //   await storage.write(key: 'view', value: view);
+  // }
+
+  // Future<String?> getView() async {
+  //   const storage = FlutterSecureStorage();
+  //   String? token = await storage.read(key: 'view');
+  //   return token;
+  // }
+
+  // void setTheme(String curr) async {
+  //   const storage = FlutterSecureStorage();
+  //   await storage.write(key: 'is-theme-dark', value: curr);
+  // }
+
+  // Future<String?> getTheme() async {
+  //   const storage = FlutterSecureStorage();
+  //   return storage.read(key: 'is-theme-dark');
+  // }
 }

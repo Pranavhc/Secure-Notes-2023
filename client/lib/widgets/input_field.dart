@@ -14,7 +14,7 @@ class InputField extends StatelessWidget {
   const InputField(
       {Key? key,
       required this.hint,
-      required this.obscure,
+      this.obscure = false,
       this.top = 0,
       this.bottom = 0,
       this.right = 0,
@@ -33,13 +33,13 @@ class InputField extends StatelessWidget {
         child: TextField(
           keyboardType: keyboardType,
           controller: controller,
-          cursorColor: kFairText,
-          style: const TextStyle(color: kFairText),
+          cursorColor: Theme.of(context).colorScheme.primary,
+          style: TextStyle(color: Theme.of(context).colorScheme.primary),
           obscureText: obscure,
           obscuringCharacter: '*',
           decoration: InputDecoration(
             filled: true,
-            fillColor: kFieldBackground,
+            fillColor: Theme.of(context).cardColor,
             hintText: hint,
             hintStyle: const TextStyle(color: kFairTextSecondary),
             focusedBorder: OutlineInputBorder(

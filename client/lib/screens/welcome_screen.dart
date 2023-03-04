@@ -1,27 +1,18 @@
-import 'package:client/utils/colors.dart';
-import 'package:client/screens/home_screen.dart';
 import 'package:client/screens/signin_screen.dart';
 import 'package:client/screens/signup_screen.dart';
+import 'package:client/utils/theme_settings.dart';
 import 'package:client/widgets/infinite_carousel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../widgets/elevated_button.dart';
 
-class WelcomeScreen extends StatefulWidget {
+class WelcomeScreen extends ConsumerWidget {
   const WelcomeScreen({super.key});
 
   @override
-  State<WelcomeScreen> createState() => _WelcomeScreenState();
-}
-
-class _WelcomeScreenState extends State<WelcomeScreen> {
-  void navigateTo(Widget location) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => location));
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      backgroundColor: kBackground,
+      backgroundColor: Theme.of(context).canvasColor,
       body: SafeArea(
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -31,41 +22,49 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               //
               Center(
                 child: CustomElevatedButton(
-                  onPressedFunc: () => navigateTo(const SignInScreen()),
+                  onPressedFunc: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SignInScreen())),
                   imgpath: "assets/email-logo.png",
                   label: "Sign in with email",
                   radius: 4,
                   top: 18,
                   bottom: 18,
                   width: 240,
-                  color1: const Color.fromARGB(255, 153, 255, 231),
-                  color2: const Color.fromARGB(255, 90, 208, 255),
+                  color1: Theme.of(context).colorScheme.primary,
+                  color2: Theme.of(context).colorScheme.primary,
                 ),
               ),
               Center(
                 child: CustomElevatedButton(
-                  onPressedFunc: () => navigateTo(const SignUpScreen()),
+                  onPressedFunc: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SignUpScreen())),
                   imgpath: "assets/email-logo.png",
                   label: "Sign up with email",
                   radius: 4,
                   bottom: 18,
                   width: 240,
-                  color2: const Color.fromARGB(255, 132, 255, 190),
-                  color1: const Color.fromARGB(255, 90, 208, 255),
+                  color1: Theme.of(context).colorScheme.primary,
+                  color2: Theme.of(context).colorScheme.primary,
                 ),
               ),
-              Center(
-                child: CustomElevatedButton(
-                  onPressedFunc: () => navigateTo(const HomeScreen()),
-                  imgpath: "assets/google-logo.png",
-                  label: "Sign in with google",
-                  radius: 4,
-                  width: 240,
-                  color2: const Color.fromARGB(255, 113, 255, 246),
-                  color1: const Color.fromARGB(255, 90, 208, 255),
-                ),
-              )
             ]),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndTop,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: FloatingActionButton.small(
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          onPressed: () => toggleTheme(ref),
+          child: ref.watch(themeMode) == ThemeMode.dark
+              ? Icon(Icons.nightlight,
+                  color: Theme.of(context).colorScheme.background)
+              : Icon(Icons.sunny,
+                  color: Theme.of(context).colorScheme.background),
+        ),
       ),
     );
   }

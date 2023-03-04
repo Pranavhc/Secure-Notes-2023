@@ -1,12 +1,15 @@
 import 'package:client/model/error_model.dart';
 import 'package:client/repository/auth_repository.dart';
 import 'package:client/utils/router.dart';
-import 'package:client/utils/themes.dart';
+import 'package:client/utils/theme_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 void main() {
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -36,11 +39,12 @@ class _MyAppState extends ConsumerState<MyApp> {
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
+    FlutterNativeSplash.remove();
     return MaterialApp.router(
       title: 'Secure Notes',
       debugShowCheckedModeBanner: false,
       themeMode: ref.watch(themeMode),
-      theme: ref.watch(theme),
+      theme: ref.watch(lightTheme),
       darkTheme: ref.watch(darkTheme),
       routerDelegate: RoutemasterDelegate(
           routesBuilder: (context) =>
@@ -49,21 +53,3 @@ class _MyAppState extends ConsumerState<MyApp> {
     );
   }
 }
-
-// LOOK INTO ROUTING
-
-// ROUTES
-// "/" - intro & login options
-// "/sign-up" - Register
-// "/sign-in" - Login
-// "/home" - home screen (notes / notebooks, searchbar)
-// "/note" - selected note from notes
-// "/new" - new note/document
-// "/settings" - settings, account
-
-// TODO - bare minimum
-// login with email       ✅
-// Register with email 
-// Home screen
-// quill text editor
-

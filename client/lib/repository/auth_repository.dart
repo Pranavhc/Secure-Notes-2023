@@ -10,7 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final authRepositoryProvider = Provider(
   ((ref) => AuthRepository(
         client: Client(),
-        localStorageRepository: LocalStorageRepository(),
+        localStorageRepository: LocalSecureStorageRepository(),
       )),
 );
 
@@ -18,11 +18,11 @@ final userProvider = StateProvider<UserModel?>((ref) => null);
 
 class AuthRepository {
   final Client _client;
-  final LocalStorageRepository _localStorageRepository;
+  final LocalSecureStorageRepository _localStorageRepository;
 
   AuthRepository({
     required Client client,
-    required LocalStorageRepository localStorageRepository,
+    required LocalSecureStorageRepository localStorageRepository,
   })  : _client = client,
         _localStorageRepository = localStorageRepository;
 

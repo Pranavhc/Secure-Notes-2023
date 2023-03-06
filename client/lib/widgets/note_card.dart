@@ -53,7 +53,7 @@ class NoteCard extends ConsumerWidget {
                   Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      Jiffy(note.createdAt).fromNow().toString(),
+                      Jiffy(note.updatedAt).fromNow().toString(),
                       style: const TextStyle(
                           fontSize: 12, color: kFairTextSecondary),
                       overflow: TextOverflow.fade,

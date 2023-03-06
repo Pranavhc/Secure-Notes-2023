@@ -24,7 +24,6 @@ class NoteCard extends ConsumerWidget {
             splashColor: Theme.of(context).splashColor,
             borderRadius: BorderRadius.circular(4),
             onTap: () => Routemaster.of(context).push('/note/${note.id}'),
-            // onLongPress: () => deleteNote(context, note.id),
             onLongPress: () => {
                   showMenu(
                     color: Theme.of(context).cardColor,

@@ -60,11 +60,19 @@ class NoteStateScreen extends ConsumerState<NoteScreen> {
   }
 
   void updateNote(WidgetRef ref, String title) {
-    ref.read(noteRepositoryProvider).updateNote(
+    final snackbar = ScaffoldMessenger.of(context);
+    ref
+        .read(noteRepositoryProvider)
+        .updateNote(
           token: ref.read(userProvider)!.token,
           id: widget.id,
           title: title,
           content: _controller!.document.toDelta().toJson(),
+        )
+        .then(
+          (value) => snackbar.showSnackBar(SnackBar(
+              content: Text(value.error ?? 'Saved!!!'),
+              duration: const Duration(seconds: 1))),
         );
   }
 

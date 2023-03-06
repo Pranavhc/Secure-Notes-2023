@@ -1,9 +1,8 @@
-import 'package:client/screens/signin_screen.dart';
-import 'package:client/screens/signup_screen.dart';
-import 'package:client/utils/theme_settings.dart';
+import 'package:client/utils/settings.dart';
 import 'package:client/widgets/infinite_carousel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:routemaster/routemaster.dart';
 import '../widgets/elevated_button.dart';
 
 class WelcomeScreen extends ConsumerWidget {
@@ -22,10 +21,7 @@ class WelcomeScreen extends ConsumerWidget {
               //
               Center(
                 child: CustomElevatedButton(
-                  onPressedFunc: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const SignInScreen())),
+                  onPressedFunc: () => Routemaster.of(context).push('/sign-in'),
                   imgpath: "assets/email-logo.png",
                   label: "Sign in with email",
                   radius: 4,
@@ -38,10 +34,7 @@ class WelcomeScreen extends ConsumerWidget {
               ),
               Center(
                 child: CustomElevatedButton(
-                  onPressedFunc: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const SignUpScreen())),
+                  onPressedFunc: () => Routemaster.of(context).push('/sign-up'),
                   imgpath: "assets/email-logo.png",
                   label: "Sign up with email",
                   radius: 4,

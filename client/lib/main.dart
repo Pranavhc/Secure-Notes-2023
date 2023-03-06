@@ -1,15 +1,19 @@
 import 'package:client/model/error_model.dart';
 import 'package:client/repository/auth_repository.dart';
 import 'package:client/utils/router.dart';
-import 'package:client/utils/theme_settings.dart';
+import 'package:client/utils/theme_data.dart';
+import 'package:client/utils/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:routemaster/routemaster.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  await Hive.initFlutter();
+  await Hive.openBox('local-data');
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -44,8 +48,8 @@ class _MyAppState extends ConsumerState<MyApp> {
       title: 'Secure Notes',
       debugShowCheckedModeBanner: false,
       themeMode: ref.watch(themeMode),
-      theme: ref.watch(lightTheme),
-      darkTheme: ref.watch(darkTheme),
+      theme: lightTheme,
+      darkTheme: darkTheme,
       routerDelegate: RoutemasterDelegate(
           routesBuilder: (context) =>
               user != null ? loggedInRoutes : loggedOutRoutes),

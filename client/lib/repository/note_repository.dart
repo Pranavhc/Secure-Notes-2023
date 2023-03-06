@@ -1,18 +1,13 @@
 import 'dart:convert';
-import 'package:client/repository/local_storage_repository.dart';
 import 'package:client/utils/constants.dart';
 import 'package:client/model/error_model.dart';
 import 'package:client/model/note_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
-// import 'package:localstorage/localstorage.dart';
-
-// final LocalStorage storage = LocalStorage('notes');
 
 final noteRepositoryProvider = Provider(
   (ref) => NoteRepository(
     client: Client(),
-    localStorageRepository: LocalSecureStorageRepository(),
   ),
 );
 
@@ -26,13 +21,10 @@ String removeResBrackets(String res) {
 
 class NoteRepository {
   final Client _client;
-  // final LocalSecureStorageRepository _localStorageRepository;
 
   NoteRepository({
     required Client client,
-    required LocalSecureStorageRepository localStorageRepository,
   }) : _client = client;
-  // _localStorageRepository = localStorageRepository;
 
   Future<ErrorModel> createNote(String token) async {
     ErrorModel error =
@@ -136,7 +128,7 @@ class NoteRepository {
       );
       switch (res.statusCode) {
         case 201:
-          error = ErrorModel(error: null, data: "Success!");
+          error = ErrorModel(error: null, data: "Updated!");
           break;
         default:
           error = ErrorModel(error: removeResBrackets(res.body), data: null);
@@ -159,7 +151,7 @@ class NoteRepository {
 
       switch (res.statusCode) {
         case 200:
-          error = ErrorModel(error: null, data: "Success!");
+          error = ErrorModel(error: null, data: "Deleted!");
           break;
         default:
           error = ErrorModel(

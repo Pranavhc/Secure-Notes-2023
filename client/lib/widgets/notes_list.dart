@@ -2,7 +2,7 @@ import 'package:client/model/error_model.dart';
 import 'package:client/model/note_model.dart';
 import 'package:client/repository/auth_repository.dart';
 import 'package:client/repository/note_repository.dart';
-import 'package:client/utils/view_settings.dart';
+import 'package:client/utils/settings.dart';
 import 'package:client/widgets/note_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,8 +23,9 @@ class NotesListState extends ConsumerState<NotesList> {
         .read(noteRepositoryProvider)
         .deleteNote(token, id)
         .then((value) => {
-              snackbar.showSnackBar(const SnackBar(
-                  content: Text("Deleted!"), duration: Duration(seconds: 1))),
+              snackbar.showSnackBar(SnackBar(
+                  content: Text(value.error ?? 'Deleted!!!'),
+                  duration: const Duration(seconds: 1))),
             });
     setState(() {});
   }
@@ -34,13 +35,13 @@ class NotesListState extends ConsumerState<NotesList> {
     return FutureBuilder<ErrorModel?>(
       future: ref
           .watch(noteRepositoryProvider)
-          .getNotes(ref.watch(userProvider)!.token),
+          .getNotes(ref.watch(userProvider)?.token ?? ''),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         }
         return snapshot.data!.data.length > 0
-            ? ref.watch(isViewList)
+            ? ref.watch(isViewList) == false
                 ? MasonryGridView.count(
                     itemBuilder: (context, index) {
                       NoteModel note = snapshot.data!.data[index];

@@ -1,6 +1,6 @@
 import 'package:client/utils/colors.dart';
 import 'package:client/repository/auth_repository.dart';
-import 'package:client/utils/theme_settings.dart';
+import 'package:client/utils/settings.dart';
 import 'package:client/widgets/elevated_button.dart';
 import 'package:client/widgets/input_field.dart';
 import 'package:flutter/material.dart';

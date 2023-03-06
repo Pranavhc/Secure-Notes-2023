@@ -22,7 +22,9 @@ String removeResBrackets(String res) {
 class NoteRepository {
   final Client _client;
 
-  NoteRepository({required Client client}) : _client = client;
+  NoteRepository({
+    required Client client,
+  }) : _client = client;
 
   Future<ErrorModel> createNote(String token) async {
     ErrorModel error =
@@ -94,6 +96,8 @@ class NoteRepository {
             notes.add(NoteModel.fromJson(
                 jsonEncode(jsonDecode(res.body)['notes'][i])));
           }
+          // storage.setItem('notes', notes); // delete this --
+          // print(storage.getItem('notes')); // delete this --
           error = ErrorModel(error: null, data: notes);
           break;
         default:
@@ -124,7 +128,7 @@ class NoteRepository {
       );
       switch (res.statusCode) {
         case 201:
-          error = ErrorModel(error: null, data: "Success!");
+          error = ErrorModel(error: null, data: "Updated!");
           break;
         default:
           error = ErrorModel(error: removeResBrackets(res.body), data: null);
@@ -147,7 +151,7 @@ class NoteRepository {
 
       switch (res.statusCode) {
         case 200:
-          error = ErrorModel(error: null, data: "Success!");
+          error = ErrorModel(error: null, data: "Deleted!");
           break;
         default:
           error = ErrorModel(

@@ -7,10 +7,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
 
-class HomeScreen extends ConsumerWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() => HomeScreenState();
+}
+
+class HomeScreenState extends ConsumerState<HomeScreen> {
+  bool _isloading = false;
+
   void createNote(BuildContext context, WidgetRef ref) async {
+    setState(() { _isloading = true; });
     String token = ref.read(userProvider)!.token;
     final navigator = Routemaster.of(context);
     final snackbar = ScaffoldMessenger.of(context);
@@ -21,6 +29,7 @@ class HomeScreen extends ConsumerWidget {
     } else {
       snackbar.showSnackBar(SnackBar(content: Text(errorModel.error!)));
     }
+    setState(() { _isloading = false; });
   }
 
   void navigateToNote(BuildContext context, String id) {
@@ -28,7 +37,7 @@ class HomeScreen extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
           backgroundColor: Theme.of(context).canvasColor,
@@ -62,6 +71,7 @@ class HomeScreen extends ConsumerWidget {
           floatingActionButton: CustomElevatedButton(
             onPressedFunc: () => createNote(context, ref),
             label: "Create New",
+            isloading: _isloading,
             radius: 4,
             bottom: 16,
             color1: Theme.of(context).colorScheme.primary,

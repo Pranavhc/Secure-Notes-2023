@@ -1,16 +1,17 @@
-import 'dart:convert';
+// ignore_for_file: unnecessary_null_comparison
 
+import 'dart:convert';
+import 'package:client/repository/hive_db_repository.dart';
 import 'package:client/utils/constants.dart';
 import 'package:client/model/error_model.dart';
 import 'package:client/model/user.dart';
-import 'package:client/repository/local_storage_repository.dart';
 import 'package:http/http.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final authRepositoryProvider = Provider(
   ((ref) => AuthRepository(
         client: Client(),
-        localStorageRepository: LocalStorageRepository(),
+        hiveDBRepository: HiveDBRepository(),
       )),
 );
 
@@ -18,13 +19,13 @@ final userProvider = StateProvider<UserModel?>((ref) => null);
 
 class AuthRepository {
   final Client _client;
-  final LocalStorageRepository _localStorageRepository;
+  final HiveDBRepository _localStorageRepository;
 
   AuthRepository({
     required Client client,
-    required LocalStorageRepository localStorageRepository,
+    required HiveDBRepository hiveDBRepository,
   })  : _client = client,
-        _localStorageRepository = localStorageRepository;
+        _localStorageRepository = hiveDBRepository;
 
   Future<ErrorModel> registerWithEmail(
       String name, String email, String password) async {
@@ -62,7 +63,6 @@ class AuthRepository {
                   .replaceAll('"', ''),
               data: null);
       }
-      // print("res body - ${res.body}"); // remove this later
     } catch (e) {
       error = ErrorModel(error: e.toString(), data: null);
     }
@@ -99,7 +99,6 @@ class AuthRepository {
                   .replaceAll('"', ''),
               data: null);
       }
-      // print("res body - ${res.body}"); // remove this later
     } catch (e) {
       error = ErrorModel(error: e.toString(), data: null);
     }
@@ -110,7 +109,7 @@ class AuthRepository {
     ErrorModel error = ErrorModel(error: "some error occured!", data: null);
 
     try {
-      String? token = await _localStorageRepository.getToken();
+      String? token = _localStorageRepository.getToken();
       if (token != null) {
         var res = await _client.get(Uri.parse('$server/auth/login'), headers: {
           'Content-Type': 'application/json; charset=UTF-8',
@@ -135,7 +134,6 @@ class AuthRepository {
                     .replaceAll('"', ''),
                 data: null);
         }
-        // print("res body - ${res.body}"); // remove this later
       }
     } catch (e) {
       error = ErrorModel(error: e.toString(), data: null);

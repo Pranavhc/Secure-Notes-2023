@@ -1,4 +1,3 @@
-import 'package:client/utils/colors.dart';
 import 'package:flutter/material.dart';
 
 class CustomElevatedButton extends StatelessWidget {
@@ -14,6 +13,7 @@ class CustomElevatedButton extends StatelessWidget {
   final double width;
   final double height;
   final String imgpath;
+  final bool isloading;
 
   const CustomElevatedButton({
     Key? key,
@@ -28,6 +28,7 @@ class CustomElevatedButton extends StatelessWidget {
     this.color1 = Colors.purple,
     this.color2 = Colors.deepPurple,
     this.imgpath = "",
+    this.isloading = false,
     required this.onPressedFunc,
   }) : super(key: key);
 
@@ -68,11 +69,14 @@ class CustomElevatedButton extends StatelessWidget {
                       ),
                     )
                   : const Padding(padding: EdgeInsets.zero),
-              Text(label,
-                  style: TextStyle(
-                      color: Theme.of(context).colorScheme.background,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18)),
+              isloading
+                  ? CircularProgressIndicator(
+                      color: Theme.of(context).colorScheme.background)
+                  : Text(label,
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.background,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18)),
             ],
           ),
         ),

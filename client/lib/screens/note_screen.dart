@@ -5,6 +5,7 @@ import 'package:client/repository/note_repository.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
+import 'package:routemaster/routemaster.dart';
 
 class NoteScreen extends ConsumerStatefulWidget {
   final String id;
@@ -19,8 +20,9 @@ class NoteStateScreen extends ConsumerState<NoteScreen> {
       TextEditingController(text: "Untitled");
 
   quill.QuillController? _controller = quill.QuillController.basic();
-
   ErrorModel? errorModel;
+
+  bool _isloading = false;
 
   @override
   void initState() {
@@ -30,11 +32,15 @@ class NoteStateScreen extends ConsumerState<NoteScreen> {
 
   @override
   void dispose() {
-    titleController.dispose();
     super.dispose();
+    titleController.dispose();
   }
 
   void getNote() async {
+    setState(() {
+      _isloading = true;
+    });
+
     errorModel = await ref
         .read(noteRepositoryProvider)
         .getNoteById(ref.read(userProvider)!.token, widget.id);
@@ -47,16 +53,26 @@ class NoteStateScreen extends ConsumerState<NoteScreen> {
               : quill.Document.fromJson(errorModel!.data.content),
           selection: const TextSelection.collapsed(offset: 0));
 
-      setState(() {});
+      setState(() {
+        _isloading = false;
+      });
     }
   }
 
   void updateNote(WidgetRef ref, String title) {
-    ref.read(noteRepositoryProvider).updateNote(
+    final snackbar = ScaffoldMessenger.of(context);
+    ref
+        .read(noteRepositoryProvider)
+        .updateNote(
           token: ref.read(userProvider)!.token,
           id: widget.id,
           title: title,
           content: _controller!.document.toDelta().toJson(),
+        )
+        .then(
+          (value) => snackbar.showSnackBar(SnackBar(
+              content: Text(value.error ?? 'Saved!!!'),
+              duration: const Duration(seconds: 1))),
         );
   }
 
@@ -67,56 +83,65 @@ class NoteStateScreen extends ConsumerState<NoteScreen> {
     }
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: kFairText,
+          backgroundColor: Theme.of(context).canvasColor,
           elevation: 0,
-          // actions: [],
+          leading: IconButton(
+            onPressed: () => Routemaster.of(context).replace('/home'),
+            icon: Icon(Icons.arrow_back_ios_new,
+                color: Theme.of(context).colorScheme.primary),
+          ),
           title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Image.asset('assets/google-logo.png', height: 45),
-              const SizedBox(width: 10),
               SizedBox(
                 width: 200,
                 child: TextField(
                   onSubmitted: (value) => updateNote(ref, value),
                   controller: titleController,
                   decoration: const InputDecoration(
-                      border: InputBorder.none,
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: kDarkText)),
-                      contentPadding: EdgeInsets.only(left: 10)),
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.only(left: 10),
+                  ),
                 ),
-              )
+              ),
+              IconButton(
+                  onPressed: () => updateNote(ref, titleController.text),
+                  icon: Icon(Icons.save,
+                      color: Theme.of(context).colorScheme.primary))
             ],
           ),
           bottom: PreferredSize(
               preferredSize: const Size.fromHeight(1),
               child: Container(
                 decoration: BoxDecoration(
-                    border: Border.all(width: 0.1, color: kFairTextSecondary)),
+                    border: Border.all(width: 0.05, color: kFairTextSecondary)),
               )),
         ),
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                quill.QuillToolbar.basic(controller: _controller!),
-                Expanded(
-                  child: Card(
-                    elevation: 5,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: quill.QuillEditor.basic(
-                        controller: _controller!,
-                        readOnly: false, // true for view only mode
-                        keyboardAppearance: Brightness.dark,
+        body: _isloading
+            ? const Center(child: CircularProgressIndicator())
+            : Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      quill.QuillToolbar.basic(controller: _controller!),
+                      Expanded(
+                        child: Card(
+                          elevation: 5,
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: quill.QuillEditor.basic(
+                              controller: _controller!,
+                              readOnly: false, // true for view only mode
+                              keyboardAppearance: Brightness.dark,
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-          ),
-        ));
+              ));
   }
 }

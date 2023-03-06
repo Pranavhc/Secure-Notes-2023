@@ -3,7 +3,7 @@ import Note from "../Models/NOTE.js";
 import { BadRequestError } from "../Errors/badReqErr.js";
 
 const getAllNotes = async (req, res) => {
-    const notes = await Note.find({ createdBy: req.user.userID }).sort("createdAt");
+    const notes = await Note.find({ createdBy: req.user.userID }).sort("updatedAt");
     res.status(StatusCodes.OK).json({ notes, count: notes.length });
 };
 

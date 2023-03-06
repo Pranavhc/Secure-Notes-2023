@@ -1,4 +1,3 @@
-import 'package:client/utils/colors.dart';
 import 'package:flutter/material.dart';
 
 class CarouselItem extends StatelessWidget {
@@ -21,15 +20,15 @@ class CarouselItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              topline,
-              style: const TextStyle(
-                  color: kFairText, fontSize: 22, fontWeight: FontWeight.bold),
-            ),
+            Text(topline,
+                style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold)),
             Text(
               bottomline,
-              style: const TextStyle(
-                color: kFairText,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.primary,
                 fontSize: 20,
               ),
             )

@@ -1,14 +1,19 @@
-import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:flutter_riverpod/flutter_riverpod.dart';
+// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-class LocalStorageRepository {
-  void setToken(String token) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    await preferences.setString('x-auth-token', token);
-  }
+// final localSecureStorageProvider = Provider(
+//   ((ref) => LocalSecureStorageRepository()),
+// );
 
-  Future<String?> getToken() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    String? token = preferences.getString('x-auth-token');
-    return token;
-  }
-}
+// class LocalSecureStorageRepository {
+//   void setToken(String token) async {
+//     const storage = FlutterSecureStorage();
+//     await storage.write(key: 'x-auth-token', value: token);
+//   }
+
+//   Future<String?> getToken() async {
+//     const storage = FlutterSecureStorage();
+//     String? token = await storage.read(key: 'x-auth-token');
+//     return token;
+//   }
+// }

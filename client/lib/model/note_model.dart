@@ -6,12 +6,14 @@ class NoteModel {
   final List content;
   final String uid;
   final String createdAt;
+  final String updatedAt;
   NoteModel({
     required this.id,
     required this.title,
     required this.content,
     required this.uid,
     required this.createdAt,
+    required this.updatedAt,
   });
 
   Map<String, dynamic> toMap() {
@@ -20,7 +22,8 @@ class NoteModel {
       'title': title,
       'content': content,
       'uid': uid,
-      'createdAt': createdAt, // look into this later
+      'createdAt': createdAt,
+      'updatedAt': updatedAt,
     };
   }
 
@@ -31,6 +34,7 @@ class NoteModel {
       content: List.from(map['content']),
       uid: map['createdBy'] ?? '',
       createdAt: map['createdAt'] ?? '',
+      updatedAt: map['updatedAt'] ?? '',
     );
   }
 

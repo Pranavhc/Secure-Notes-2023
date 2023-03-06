@@ -96,8 +96,6 @@ class NoteRepository {
             notes.add(NoteModel.fromJson(
                 jsonEncode(jsonDecode(res.body)['notes'][i])));
           }
-          // storage.setItem('notes', notes); // delete this --
-          // print(storage.getItem('notes')); // delete this --
           error = ErrorModel(error: null, data: notes);
           break;
         default:

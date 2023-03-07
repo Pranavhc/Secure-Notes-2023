@@ -4,7 +4,6 @@ import 'package:client/repository/note_repository.dart';
 import 'package:client/widgets/elevated_button.dart';
 import 'package:client/widgets/notes_list.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
 

@@ -4,6 +4,7 @@ import 'package:client/repository/note_repository.dart';
 import 'package:client/widgets/elevated_button.dart';
 import 'package:client/widgets/notes_list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
 
@@ -18,7 +19,9 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
   bool _isloading = false;
 
   void createNote(BuildContext context, WidgetRef ref) async {
-    setState(() { _isloading = true; });
+    setState(() {
+      _isloading = true;
+    });
     String token = ref.read(userProvider)!.token;
     final navigator = Routemaster.of(context);
     final snackbar = ScaffoldMessenger.of(context);
@@ -29,7 +32,9 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
     } else {
       snackbar.showSnackBar(SnackBar(content: Text(errorModel.error!)));
     }
-    setState(() { _isloading = false; });
+    setState(() {
+      _isloading = false;
+    });
   }
 
   void navigateToNote(BuildContext context, String id) {

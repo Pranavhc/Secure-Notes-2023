@@ -14,8 +14,10 @@ class CarouselItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Image.asset(imgpath),
-        const SizedBox(height: 10),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 10.0),
+          child: Image.asset(imgpath),
+        ),
         Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,

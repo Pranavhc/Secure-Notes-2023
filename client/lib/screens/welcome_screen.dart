@@ -17,7 +17,7 @@ class WelcomeScreen extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 360, child: InfiniteCarouselWidget()),
+              const SizedBox(height: 380, child: InfiniteCarouselWidget()),
               //
               Center(
                 child: CustomElevatedButton(

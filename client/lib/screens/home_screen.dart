@@ -18,7 +18,9 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
   bool _isloading = false;
 
   void createNote(BuildContext context, WidgetRef ref) async {
-    setState(() { _isloading = true; });
+    setState(() {
+      _isloading = true;
+    });
     String token = ref.read(userProvider)!.token;
     final navigator = Routemaster.of(context);
     final snackbar = ScaffoldMessenger.of(context);
@@ -29,7 +31,9 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
     } else {
       snackbar.showSnackBar(SnackBar(content: Text(errorModel.error!)));
     }
-    setState(() { _isloading = false; });
+    setState(() {
+      _isloading = false;
+    });
   }
 
   void navigateToNote(BuildContext context, String id) {

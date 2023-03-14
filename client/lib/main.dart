@@ -1,8 +1,10 @@
+import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:client/model/error_model.dart';
 import 'package:client/repository/auth_repository.dart';
 import 'package:client/utils/router.dart';
 import 'package:client/utils/theme_data.dart';
 import 'package:client/utils/settings.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -15,6 +17,20 @@ Future<void> main() async {
   await Hive.initFlutter();
   await Hive.openBox('local-data');
   runApp(const ProviderScope(child: MyApp()));
+
+  if (defaultTargetPlatform == TargetPlatform.windows ||
+      defaultTargetPlatform == TargetPlatform.linux) {
+    doWhenWindowReady(() {
+      const minSize = Size(480, 680);
+      const initialSize = Size(800, 800);
+      appWindow.title = "Secure Notes";
+      appWindow.alignment = Alignment.center;
+      appWindow.minSize = minSize;
+      appWindow.size = initialSize;
+      appWindow.alignment = Alignment.center;
+      appWindow.show();
+    });
+  }
 }
 
 class MyApp extends ConsumerStatefulWidget {

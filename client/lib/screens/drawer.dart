@@ -19,7 +19,7 @@ class MyDrawer extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Drawer(
-      backgroundColor: Colors.amber,
+      backgroundColor: Theme.of(context).canvasColor,
       child: SafeArea(
         child: Container(
           decoration: BoxDecoration(

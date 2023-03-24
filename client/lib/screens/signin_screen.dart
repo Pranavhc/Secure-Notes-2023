@@ -19,12 +19,18 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
   final email = TextEditingController();
   final password = TextEditingController();
   bool _isloading = false;
+  final formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
     email.dispose();
     password.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   void loginWithEmail(WidgetRef ref, BuildContext context) async {
@@ -58,103 +64,117 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                   defaultTargetPlatform == TargetPlatform.linux
               ? 600
               : MediaQuery.of(context).size.width,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 100, bottom: 12),
-                child: Center(
-                  child: Text(
-                    "Sign In",
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.primary,
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold),
+          child: Form(
+            key: formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 80, bottom: 12),
+                  child: Center(
+                    child: Text(
+                      "Sign In",
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(bottom: 50),
-                child: Center(
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 50),
+                  child: Center(
+                    child: Text(
+                      "Hey, Welcome buddy!",
+                      style: TextStyle(
+                        color: kFairTextSecondary,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 28),
                   child: Text(
-                    "Hey, Welcome buddy!",
+                    "Email",
                     style: TextStyle(
-                      color: kFairTextSecondary,
+                      color: Theme.of(context).colorScheme.primary,
                       fontSize: 16,
                     ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 28),
-                child: Text(
-                  "Email",
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.primary,
-                    fontSize: 16,
-                  ),
-                ),
-              ),
-              InputField(
+                InputField(
+                  validatorfunc: (String? value) =>
+                      value!.isEmpty ? "enter your email" : null,
                   hint: "Enter your email",
                   controller: email,
                   obscure: false,
                   left: 18,
                   right: 18,
                   top: 9,
-                  bottom: 18),
-              Padding(
-                padding: const EdgeInsets.only(left: 28),
-                child: Text(
-                  "Password",
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.primary,
-                    fontSize: 16,
+                  bottom: 18,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 28),
+                  child: Text(
+                    "Password",
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                      fontSize: 16,
+                    ),
                   ),
                 ),
-              ),
-              InputField(
+                InputField(
+                  validatorfunc: (String? value) =>
+                      value!.length < 3 ? "enter minimum 8 characters" : null,
                   hint: "Enter a password",
                   controller: password,
                   obscure: true,
                   left: 18,
                   right: 18,
                   top: 9,
-                  bottom: 18),
-              Center(
-                child: CustomElevatedButton(
-                  isloading: _isloading,
-                  label: 'Sign in',
-                  onPressedFunc: () => loginWithEmail(ref, context),
-                  radius: 4,
-                  top: 18,
-                  bottom: 16,
-                  color1: Theme.of(context).colorScheme.primary,
-                  color2: Theme.of(context).colorScheme.primary,
+                  bottom: 18,
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text("Don't have an account? ",
-                      style: TextStyle(
-                        color: kFairTextSecondary,
-                        fontSize: 14,
-                      )),
-                  InkWell(
-                    // onTap: () => Navigator.push(context,MaterialPageRoute(builder: (context) => const SignUpScreen())),
-                    onTap: () => Routemaster.of(context).push('/sign-up'),
-                    child: Text("Sign up",
+                Center(
+                  child: CustomElevatedButton(
+                    isloading: _isloading,
+                    label: 'Sign in',
+                    onPressedFunc: () {
+                      if (formKey.currentState!.validate()) {
+                        loginWithEmail(ref, context);
+                      }
+                    },
+                    radius: 4,
+                    top: 18,
+                    bottom: 16,
+                    color1: Theme.of(context).colorScheme.primary,
+                    color2: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text("Don't have an account? ",
+                        style: TextStyle(
+                          color: kFairTextSecondary,
+                          fontSize: 14,
+                        )),
+                    InkWell(
+                      onTap: () => Routemaster.of(context).push('/sign-up'),
+                      child: Text(
+                        "Sign up",
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.primary,
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
-                        )),
-                  ),
-                ],
-              ),
-            ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

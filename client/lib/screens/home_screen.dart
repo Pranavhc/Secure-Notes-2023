@@ -1,7 +1,6 @@
 import 'package:client/screens/drawer.dart';
 import 'package:client/repository/auth_repository.dart';
 import 'package:client/repository/note_repository.dart';
-import 'package:client/widgets/elevated_button.dart';
 import 'package:client/widgets/notes_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -44,43 +43,61 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Theme.of(context).canvasColor,
+        drawer: const MyDrawer(),
+        appBar: AppBar(
           backgroundColor: Theme.of(context).canvasColor,
-          drawer: const MyDrawer(),
-          appBar: AppBar(
-            backgroundColor: Theme.of(context).canvasColor,
-            toolbarHeight: 80,
-            elevation: 0,
-            title: Row(
-              children: [
-                Padding(
+          toolbarHeight: 80,
+          elevation: 0,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Padding(
                   padding: const EdgeInsets.all(4.0),
-                  child: Text("ALL NOTES",
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.primary)),
+                  child: Text(
+                    "ALL NOTES",
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.primary),
+                    softWrap: false,
+                    overflow: TextOverflow.fade,
+                  ),
                 ),
-              ],
-            ),
-            leading: Builder(
-              builder: (context) => IconButton(
-                  onPressed: () => Scaffold.of(context).openDrawer(),
-                  icon: Icon(Icons.menu_rounded,
-                      color: Theme.of(context).colorScheme.primary)),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: IconButton(
+                  onPressed: () => createNote(context, ref),
+                  icon: _isloading
+                      ? CircularProgressIndicator(
+                          color: Theme.of(context).colorScheme.primary,
+                        )
+                      : Icon(Icons.note_add,
+                          color: Theme.of(context).colorScheme.primary),
+                  highlightColor: Colors.transparent,
+                  hoverColor: Colors.transparent,
+                  focusColor: Colors.transparent,
+                  splashColor: Colors.transparent,
+                ),
+              ),
+            ],
+          ),
+          leading: Builder(
+            builder: (context) => IconButton(
+              onPressed: () => Scaffold.of(context).openDrawer(),
+              icon: Icon(Icons.menu_rounded,
+                  color: Theme.of(context).colorScheme.primary),
+              highlightColor: Colors.transparent,
+              hoverColor: Colors.transparent,
+              focusColor: Colors.transparent,
+              splashColor: Colors.transparent,
             ),
           ),
-          body: const NotesList(),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat,
-          floatingActionButton: CustomElevatedButton(
-            onPressedFunc: () => createNote(context, ref),
-            label: "Create New",
-            isloading: _isloading,
-            radius: 4,
-            bottom: 16,
-            color1: Theme.of(context).colorScheme.primary,
-            color2: Theme.of(context).colorScheme.primary,
-          )),
+        ),
+        body: const NotesList(),
+      ),
     );
   }
 }

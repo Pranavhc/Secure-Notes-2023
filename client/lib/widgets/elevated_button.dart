@@ -72,11 +72,16 @@ class CustomElevatedButton extends StatelessWidget {
               isloading
                   ? CircularProgressIndicator(
                       color: Theme.of(context).colorScheme.background)
-                  : Text(label,
+                  : Text(
+                      label,
                       style: TextStyle(
-                          color: Theme.of(context).colorScheme.background,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18)),
+                        color: Theme.of(context).colorScheme.background,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                      softWrap: false,
+                      overflow: TextOverflow.fade,
+                    ),
             ],
           ),
         ),

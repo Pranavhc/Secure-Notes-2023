@@ -14,13 +14,10 @@ class InfiniteCarouselWidget extends StatefulWidget {
 class InfiniteCarouselWidgetState extends State<InfiniteCarouselWidget> {
   // Scroll controller for carousel
   late InfiniteScrollController _controller;
-
   // Maintain current index of carousel
   int _selectedIndex = 0;
-
   // Width of each item
   double? _itemExtent;
-
   // Get screen width of viewport.
   double get screenWidth => MediaQuery.of(context).size.width;
 

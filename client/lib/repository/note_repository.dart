@@ -37,7 +37,7 @@ class NoteRepository {
           'Content-Type': 'application/json; charset=UTF-8',
           'authorization': "Bearer $token"
         },
-        body: jsonEncode({"title": "untitled note"}),
+        body: jsonEncode({"title": "📘 untitled note"}),
       );
       switch (res.statusCode) {
         case 201:

@@ -57,21 +57,21 @@ class MyDrawer extends ConsumerWidget {
                 ),
               ),
               Center(
-                child: Text(
-                  ref.read(userProvider)?.name.toUpperCase() ?? '',
-                  style: const TextStyle(
-                      color: kDarkText,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold),
-                ),
+                child: Text(ref.read(userProvider)?.name.toUpperCase() ?? '',
+                    style: const TextStyle(
+                        color: kDarkText,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
+                    softWrap: false,
+                    overflow: TextOverflow.fade),
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 32.0),
                 child: Center(
-                  child: Text(
-                    ref.read(userProvider)?.email ?? '',
-                    style: const TextStyle(fontSize: 16, color: kDarkText),
-                  ),
+                  child: Text(ref.read(userProvider)?.email ?? '',
+                      style: const TextStyle(fontSize: 16, color: kDarkText),
+                      softWrap: false,
+                      overflow: TextOverflow.fade),
                 ),
               ),
               Expanded(
@@ -101,7 +101,13 @@ class MyDrawer extends ConsumerWidget {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          const Text("Notes View"),
+                                          const Expanded(
+                                            child: Text(
+                                              "Notes View",
+                                              softWrap: false,
+                                              overflow: TextOverflow.fade,
+                                            ),
+                                          ),
                                           IconButton(
                                             onPressed: () => toggleView(ref),
                                             icon: ref.watch(isViewList)
@@ -121,7 +127,13 @@ class MyDrawer extends ConsumerWidget {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            const Text("Theme Mode"),
+                                            const Expanded(
+                                              child: Text(
+                                                "Theme Mode",
+                                                softWrap: false,
+                                                overflow: TextOverflow.fade,
+                                              ),
+                                            ),
                                             IconButton(
                                               onPressed: () => toggleTheme(ref),
                                               icon: ref.watch(themeMode) ==
@@ -150,7 +162,13 @@ class MyDrawer extends ConsumerWidget {
                             title: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text("Sign out"),
+                                const Expanded(
+                                  child: Text(
+                                    "Sign out",
+                                    softWrap: false,
+                                    overflow: TextOverflow.fade,
+                                  ),
+                                ),
                                 IconButton(
                                   onPressed: () => logOut(context, ref),
                                   icon: Icon(Icons.logout,

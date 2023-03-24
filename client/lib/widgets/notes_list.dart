@@ -72,27 +72,30 @@ class NotesListState extends ConsumerState<NotesList> {
                     )
               : Center(
                   child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 32, bottom: 16),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(100.0),
-                        child: Image.asset(
-                          'assets/batman.gif',
-                          alignment: Alignment.center,
-                          fit: BoxFit.cover,
-                          height: 260,
-                          width: 260,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 32, bottom: 16),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(100.0),
+                          child: Image.asset(
+                            'assets/batman.gif',
+                            alignment: Alignment.center,
+                            fit: BoxFit.cover,
+                            height: 260,
+                            width: 260,
+                          ),
                         ),
                       ),
-                    ),
-                    const Text("why such empty? 🤷",
+                      const Text(
+                        "wow, the emptyness! it's creepy 🥶",
                         style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold))
-                  ],
-                ));
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                );
         });
   }
 }

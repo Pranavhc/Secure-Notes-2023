@@ -1,7 +1,8 @@
-import 'package:client/utils/colors.dart';
 import 'package:client/model/error_model.dart';
 import 'package:client/repository/auth_repository.dart';
 import 'package:client/repository/note_repository.dart';
+import 'package:client/utils/settings.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
@@ -71,7 +72,7 @@ class NoteStateScreen extends ConsumerState<NoteScreen> {
         )
         .then(
           (value) => snackbar.showSnackBar(SnackBar(
-              content: Text(value.error ?? 'Saved!!!'),
+              content: Text(value.error ?? 'Saved!'),
               duration: const Duration(seconds: 1))),
         );
   }
@@ -82,66 +83,150 @@ class NoteStateScreen extends ConsumerState<NoteScreen> {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).canvasColor,
-          elevation: 0,
-          leading: IconButton(
-            onPressed: () => Routemaster.of(context).replace('/home'),
-            icon: Icon(Icons.arrow_back_ios_new,
-                color: Theme.of(context).colorScheme.primary),
-          ),
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: 200,
-                child: TextField(
-                  onSubmitted: (value) => updateNote(ref, value),
-                  controller: titleController,
-                  decoration: const InputDecoration(
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.only(left: 10),
-                  ),
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).canvasColor,
+        elevation: 0,
+        leading: IconButton(
+          onPressed: () => Routemaster.of(context).replace('/home'),
+          icon: Icon(Icons.arrow_back_ios_new,
+              color: Theme.of(context).colorScheme.primary),
+          highlightColor: Colors.transparent,
+          hoverColor: Colors.transparent,
+          focusColor: Colors.transparent,
+          splashColor: Colors.transparent,
+        ),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: 200,
+              child: TextField(
+                onSubmitted: (value) => updateNote(ref, value),
+                controller: titleController,
+                decoration: const InputDecoration(
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.only(left: 10),
                 ),
               ),
-              IconButton(
-                  onPressed: () => updateNote(ref, titleController.text),
-                  icon: Icon(Icons.save,
-                      color: Theme.of(context).colorScheme.primary))
-            ],
-          ),
-          bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(1),
-              child: Container(
-                decoration: BoxDecoration(
-                    border: Border.all(width: 0.05, color: kFairTextSecondary)),
-              )),
+            ),
+            IconButton(
+              onPressed: () => updateNote(ref, titleController.text),
+              icon: Icon(Icons.save,
+                  color: Theme.of(context).colorScheme.primary),
+              highlightColor: Colors.transparent,
+              hoverColor: Colors.transparent,
+              focusColor: Colors.transparent,
+              splashColor: Colors.transparent,
+            )
+          ],
         ),
-        body: _isloading
-            ? const Center(child: CircularProgressIndicator())
-            : Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      quill.QuillToolbar.basic(controller: _controller!),
-                      Expanded(
-                        child: Card(
-                          elevation: 5,
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: quill.QuillEditor.basic(
-                              controller: _controller!,
-                              readOnly: false, // true for view only mode
-                              keyboardAppearance: Brightness.dark,
-                            ),
+      ),
+      body: _isloading
+          ? const Center(child: CircularProgressIndicator())
+          : Center(
+              child: Padding(
+                padding: defaultTargetPlatform == TargetPlatform.android ||
+                        defaultTargetPlatform == TargetPlatform.iOS
+                    ? const EdgeInsets.only(bottom: 8)
+                    : const EdgeInsets.only(bottom: 0),
+                child: Column(
+                  children: [
+                    defaultTargetPlatform == TargetPlatform.windows ||
+                            defaultTargetPlatform == TargetPlatform.linux
+                        ? quill.QuillToolbar.basic(
+                            controller: _controller!,
+                            multiRowsDisplay: false,
+                            showClearFormat: false,
+                            showDividers: true,
+                            showFontSize: false,
+                            showSmallButton: true,
+                            showInlineCode: false,
+                            axis: Axis.horizontal,
+                            customButtons: [
+                              quill.QuillCustomButton(
+                                icon: ref.watch(themeMode) == ThemeMode.dark
+                                    ? Icons.nightlight
+                                    : Icons.sunny,
+                                onTap: () => toggleTheme(ref),
+                              )
+                            ],
+                            iconTheme: quill.QuillIconTheme(
+                                borderRadius: 18,
+                                iconSelectedFillColor:
+                                    Theme.of(context).colorScheme.primary,
+                                iconSelectedColor:
+                                    Theme.of(context).colorScheme.background),
+                          )
+                        : const Padding(padding: EdgeInsets.all(0)),
+                    Expanded(
+                      child: Container(
+                        margin: const EdgeInsets.only(top: 4),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).cardColor,
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(32),
+                            topRight: Radius.circular(32),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Theme.of(context).shadowColor,
+                              offset: const Offset(2, 1),
+                              blurRadius: 4,
+                            )
+                          ],
+                        ),
+                        child: Padding(
+                          padding: defaultTargetPlatform ==
+                                      TargetPlatform.android ||
+                                  defaultTargetPlatform == TargetPlatform.iOS
+                              ? const EdgeInsets.only(
+                                  left: 16, right: 16, top: 16, bottom: 32)
+                              : const EdgeInsets.only(
+                                  left: 16, right: 16, top: 16, bottom: 0),
+                          child: quill.QuillEditor.basic(
+                            controller: _controller!,
+                            readOnly: false, // true for view only mode
+                            keyboardAppearance: Brightness.dark,
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ));
+              ),
+            ),
+      resizeToAvoidBottomInset: true,
+      bottomSheet: defaultTargetPlatform == TargetPlatform.android ||
+              defaultTargetPlatform == TargetPlatform.iOS
+          ? Padding(
+              padding: const EdgeInsets.only(top: 8, bottom: 8),
+              child: quill.QuillToolbar.basic(
+                controller: _controller!,
+                multiRowsDisplay: false,
+                showClearFormat: false,
+                showDividers: true,
+                showFontSize: false,
+                showSmallButton: true,
+                showInlineCode: false,
+                axis: Axis.horizontal,
+                customButtons: [
+                  quill.QuillCustomButton(
+                    icon: ref.watch(themeMode) == ThemeMode.dark
+                        ? Icons.nightlight
+                        : Icons.sunny,
+                    onTap: () => toggleTheme(ref),
+                  )
+                ],
+                iconTheme: quill.QuillIconTheme(
+                    borderRadius: 18,
+                    iconSelectedFillColor:
+                        Theme.of(context).colorScheme.primary,
+                    iconSelectedColor:
+                        Theme.of(context).colorScheme.background),
+              ),
+            )
+          : const Padding(padding: EdgeInsets.all(0)),
+    );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:client/model/error_model.dart';
 import 'package:client/repository/auth_repository.dart';
+import 'package:client/repository/hive_db_repository.dart';
 import 'package:client/utils/router.dart';
 import 'package:client/utils/theme_data.dart';
 import 'package:client/utils/settings.dart';
@@ -21,12 +22,10 @@ Future<void> main() async {
   if (defaultTargetPlatform == TargetPlatform.windows ||
       defaultTargetPlatform == TargetPlatform.linux) {
     doWhenWindowReady(() {
-      const minSize = Size(480, 680);
-      const initialSize = Size(800, 800);
+      const minSize = Size(480, 720);
       appWindow.title = "Secure Notes";
       appWindow.alignment = Alignment.center;
       appWindow.minSize = minSize;
-      appWindow.size = initialSize;
       appWindow.alignment = Alignment.center;
       appWindow.show();
     });
@@ -58,8 +57,11 @@ class _MyAppState extends ConsumerState<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    if (HiveDBRepository().getToken().isEmpty) FlutterNativeSplash.remove();
+
     final user = ref.watch(userProvider);
-    FlutterNativeSplash.remove();
+    if (user != null) FlutterNativeSplash.remove();
+
     return MaterialApp.router(
       title: 'Secure Notes',
       debugShowCheckedModeBanner: false,

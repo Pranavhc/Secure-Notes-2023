@@ -18,7 +18,6 @@ class WelcomeScreen extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 380, child: InfiniteCarouselWidget()),
-              //
               Center(
                 child: CustomElevatedButton(
                   onPressedFunc: () => Routemaster.of(context).push('/sign-in'),

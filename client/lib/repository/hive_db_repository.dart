@@ -13,7 +13,7 @@ class HiveDBRepository {
 
   String getToken() {
     var settings = Hive.box('local-data');
-    return settings.get('x-auth-token');
+    return settings.get('x-auth-token', defaultValue: "");
   }
 
   void setView(String view) {

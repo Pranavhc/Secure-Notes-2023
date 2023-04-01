@@ -39,7 +39,7 @@ class InfiniteCarouselWidgetState extends State<InfiniteCarouselWidget> {
     _controller.dispose();
   }
 
-  final List<Widget> _demo = [
+  final List<Widget> _items = [
     const CarouselItem(
         imgpath: "assets/gif1.gif",
         topline: "Document and Organize your work",
@@ -58,7 +58,7 @@ class InfiniteCarouselWidgetState extends State<InfiniteCarouselWidget> {
   Widget build(BuildContext context) {
     return InfiniteCarousel.builder(
       center: true,
-      itemCount: _demo.length,
+      itemCount: _items.length,
       itemExtent: _itemExtent ?? 340,
       scrollBehavior: kIsWeb
           ? ScrollConfiguration.of(context).copyWith(dragDevices: {
@@ -84,7 +84,7 @@ class InfiniteCarouselWidgetState extends State<InfiniteCarouselWidget> {
               _controller.animateToItem(realIndex);
             },
             child: Container(
-              child: _demo[itemIndex],
+              child: _items[itemIndex],
             ),
           ),
         );

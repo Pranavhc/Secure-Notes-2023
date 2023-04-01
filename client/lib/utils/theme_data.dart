@@ -7,7 +7,6 @@ final lightTheme = ThemeData(
   cardColor: Colors.white,
   dialogBackgroundColor: const Color(0xFFF4F4F4),
   shadowColor: Colors.grey.shade300,
-  // primaryColor: ,
   colorScheme: const ColorScheme.light(
     background: Color(0xffF4F4F4),
     primary: Color(0xff161621),

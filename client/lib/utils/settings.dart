@@ -7,7 +7,7 @@ final isViewList = StateProvider<bool>((ref) => ref.read(hiveDbProvider).getView
 
 void toggleView(WidgetRef ref) {
   ref.read(hiveDbProvider).setView(ref.read(hiveDbProvider).getView() == 'grid' ? 'list' : 'grid');
-  ref.read(isViewList.notifier).update( (state) => ref.read(isViewList) == true ? false : true);
+  ref.read(isViewList.notifier).update((state) => ref.read(isViewList) == true ? false : true);
 }
 
 // Theme Settings

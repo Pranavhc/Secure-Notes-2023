@@ -69,8 +69,7 @@ class NoteRepository {
         case 200:
           error = ErrorModel(error: null, data: NoteModel.fromJson(res.body));
           break;
-        default:
-          error = ErrorModel(error: removeResBrackets(res.body), data: null);
+        default: error = ErrorModel(error: removeResBrackets(res.body), data: null);
       }
     } catch (e) {
       error = ErrorModel(error: e.toString(), data: null);

@@ -9,7 +9,7 @@
     "devStart": "nodemon index.js"
   },
   "keywords": [],
-  "author": "pranav_chandane, ashish_shirsath, akshay_potbhare, aditya_chavan",
+  "author": "Pranav H. Chandane",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",

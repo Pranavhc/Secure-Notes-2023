@@ -19,7 +19,7 @@ class MyDrawer extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Drawer(
-      backgroundColor: Theme.of(context).canvasColor,
+      backgroundColor: Theme.of(context).cardColor,
       child: SafeArea(
         child: Container(
           decoration: BoxDecoration(
@@ -80,7 +80,7 @@ class MyDrawer extends ConsumerWidget {
                       topLeft: Radius.circular(32),
                       topRight: Radius.circular(32)),
                   child: Container(
-                    color: Theme.of(context).canvasColor,
+                    color: Theme.of(context).cardColor,
                     child: Padding(
                       padding: const EdgeInsets.only(top: 16, bottom: 16),
                       child: Column(

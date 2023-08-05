@@ -42,33 +42,51 @@ class NotesListState extends ConsumerState<NotesList> {
           }
           return snapshot.data!.data.length > 0
               ? ref.watch(isViewList) == false
-                  ? MasonryGridView.count(
-                      itemBuilder: (context, index) {
-                        NoteModel note = snapshot.data!.data[index];
-                        return NoteCard(
-                          note: note,
-                          onPressedFunc: () => deleteNote(context, note.id),
-                        );
+                  ? RefreshIndicator(
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      color: Theme.of(context).colorScheme.background,
+                      onRefresh: () async {
+                        setState(() {});
                       },
-                      physics: const BouncingScrollPhysics(),
-                      crossAxisCount: 2,
-                      itemCount: snapshot.data!.data.length,
-                      mainAxisSpacing: 4,
-                      crossAxisSpacing: 4,
-                      shrinkWrap: true,
-                      padding: const EdgeInsets.all(12),
-                    )
-                  : ListView.builder(
-                      itemBuilder: (context, index) {
-                        NoteModel note = snapshot.data!.data[index];
-                        return NoteCard(
+                      child: MasonryGridView.count(
+                        itemBuilder: (context, index) {
+                          NoteModel note = snapshot.data!.data[index];
+                          return NoteCard(
                             note: note,
-                            onPressedFunc: () => deleteNote(context, note.id));
+                            onPressedFunc: () => deleteNote(context, note.id),
+                          );
+                        },
+                        physics: const BouncingScrollPhysics(
+                            parent: AlwaysScrollableScrollPhysics()),
+                        crossAxisCount: 2,
+                        itemCount: snapshot.data!.data.length,
+                        mainAxisSpacing: 4,
+                        crossAxisSpacing: 4,
+                        shrinkWrap: true,
+                        padding: const EdgeInsets.all(12),
+                      ),
+                    )
+                  : RefreshIndicator(
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      color: Theme.of(context).colorScheme.background,
+                      displacement: 12,
+                      onRefresh: () async {
+                        setState(() {});
                       },
-                      physics: const BouncingScrollPhysics(),
-                      itemCount: snapshot.data!.data.length,
-                      shrinkWrap: true,
-                      padding: const EdgeInsets.only(left: 16, right: 16),
+                      child: ListView.builder(
+                        itemBuilder: (context, index) {
+                          NoteModel note = snapshot.data!.data[index];
+                          return NoteCard(
+                              note: note,
+                              onPressedFunc: () =>
+                                  deleteNote(context, note.id));
+                        },
+                        physics: const BouncingScrollPhysics(
+                            parent: AlwaysScrollableScrollPhysics()),
+                        itemCount: snapshot.data!.data.length,
+                        shrinkWrap: true,
+                        padding: const EdgeInsets.only(left: 16, right: 16),
+                      ),
                     )
               : Center(
                   child: Column(

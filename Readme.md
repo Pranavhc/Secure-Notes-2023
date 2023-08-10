@@ -5,5 +5,3 @@ The backend of the application is defined in Javascript using it's well known ru
 The GUI is created using an advanced and efficient UI framework know as Flutter.<br>
 For data storage, a document oriented and NoSql database, MongoDb was the perfect choice.
 </p>
-
-<p>For more details, checkout Server & Client directories in the repository.</p>
